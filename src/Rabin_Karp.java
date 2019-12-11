@@ -28,7 +28,7 @@ public class Rabin_Karp {
         result = new int[n];
 
         for (int i = 0; i < n; i++) {
-            result[i] = -1;
+            result[i] = -2; // -2 mean not answered
             System.out.println("Input text " + (i + 1));
             arrText[i] = scanner.nextLine();
         }
@@ -75,8 +75,12 @@ public class Rabin_Karp {
         int windows_number = 1; // windows 0 already calculate in previous step
         while (number_of_calculated_result < n) { // loop till every text in array have result
             for (i = 0; i < n; i++) {
-                if ((windows_number + pattern.length()) > arrText[i].length()) {
-                    i++;
+                if ((windows_number + pattern.length()) > arrText[i].length() &&  result[i] == -2) { // if exceed text length but no match yet (and still no answer), conclude result =-1
+                    result[i] = -1;
+                    number_of_calculated_result++;
+                    continue;
+                }
+                if ((windows_number + pattern.length()) > arrText[i].length() &&  result[i] == -1) { // if exceed text length but already have answer, simply bypass this text
                     continue;
                 }
 
